@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*
  * TODO: UI
- *         * autozoom button
  *         * autopopulate button
- *         * stop, start, restart, undo one frame (full rewind/replay?)
+ *         * restart, (full rewind/replay?)
  *         * screenshot
  *         * save state/load state
  */
 public class Game : MonoBehaviour {
+    private const string ScreenshotIndexKey = "Screenshot Index";
     private BitArray _board;
     private BitArray _buffer;
     private Camera _camera;
@@ -20,14 +21,81 @@ public class Game : MonoBehaviour {
     private int _maxCol = -1;
     private float _scroll = 0;
     private Vector3 _lastMousePosition = default;
-    private bool _isPlaying = true;
+    private bool _isPlaying = false;
     private float _rate = 1;
+    private bool _canUndo = false;
 
     [SerializeField] private int rows = 100;
     [SerializeField] private int columns = 100;
     [SerializeField] private GameObject liveCellPrefab = null;
     [SerializeField] private GameObject allCellsPrefab = null;
     [SerializeField] private float zoomFactorPerScrollInput = 2;
+    [SerializeField] private Button advanceButton = null;
+    [SerializeField] private Button playButton = null;
+    [SerializeField] private Button stopButton = null;
+    [SerializeField] private Button undoButton = null;
+    [SerializeField] private Button restartButton = null;
+
+
+    public void Screenshot() {
+        Pause();
+        if(!PlayerPrefs.HasKey(ScreenshotIndexKey)) {
+            PlayerPrefs.SetInt(ScreenshotIndexKey, 1);
+        }
+
+        int index = PlayerPrefs.GetInt(ScreenshotIndexKey);
+        string filename = $"{Application.persistentDataPath}/Life_Screenshot_{index:0000}.png";
+        ScreenCapture.CaptureScreenshot(filename);
+        Debug.Log($"Saved screenshot to {filename}");
+        index++;
+        PlayerPrefs.SetInt(ScreenshotIndexKey, index);
+        PlayerPrefs.Save();
+    }
+
+    public void Quit() {
+        Application.Quit();
+    }
+
+    public void Clear() {
+        Pause();
+        for(int i = 0; i < _board.Count; i++) {
+            _buffer[i] = _board[i];
+            _board[i] = false;
+        }
+
+        Draw();
+    }
+
+    public void AutoPopulate(int numPoints = 20) {
+        for(int i = 0; i < numPoints; i++) {
+            int row = Mathf.RoundToInt(rows/2f + (Random.value - Random.value)*rows/2);
+            if(row < 0) row = 0;
+            if(row >= rows) row = rows - 1;
+            int col = Mathf.RoundToInt(columns/2f + (Random.value - Random.value)*columns/2);
+            if(col < 0) col = 0;
+            if(col >= columns) col = columns - 1;
+            int index = row + rows*col;
+            _board[index] = !_board[index];
+        }
+
+        AutoZoom();
+        Draw();
+    }
+
+    public void Undo() {
+        if(!_canUndo) return;
+        _canUndo = false;
+        _isPlaying = false;
+        advanceButton.interactable = !_isPlaying;
+        playButton.interactable = !_isPlaying;
+        stopButton.interactable = _isPlaying;
+        undoButton.interactable = false;
+        for(int i = 0; i < _board.Count; i++) {
+            _board[i] = _buffer[i];
+        }
+
+        Draw();
+    }
 
     public void SlowDown() {
         CancelInvoke(nameof(Run));
@@ -44,14 +112,23 @@ public class Game : MonoBehaviour {
 
     public void Pause() {
         _isPlaying = false;
+        advanceButton.interactable = !_isPlaying;
+        playButton.interactable = !_isPlaying;
+        stopButton.interactable = _isPlaying;
     }
 
     public void Play() {
         _isPlaying = true;
+        advanceButton.interactable = !_isPlaying;
+        playButton.interactable = !_isPlaying;
+        stopButton.interactable = _isPlaying;
     }
 
     public void Advance() {
         _isPlaying = false;
+        advanceButton.interactable = !_isPlaying;
+        playButton.interactable = !_isPlaying;
+        stopButton.interactable = _isPlaying;
         UpdateGeneration(true);
         Draw();
     }
@@ -68,6 +145,7 @@ public class Game : MonoBehaviour {
             }
         }
 
+        _camera.orthographicSize = 5;
         float width = _camera.orthographicSize*_camera.aspect;
         float height = _camera.orthographicSize;
         if(_minRow < -width) width = -_minRow;
@@ -106,6 +184,9 @@ public class Game : MonoBehaviour {
             int index = PosToIndex(row, col);
             if(index > 0 && index < _board.Length) {
                 _isPlaying = false;
+                advanceButton.interactable = !_isPlaying;
+                playButton.interactable = !_isPlaying;
+                stopButton.interactable = _isPlaying;
                 _board[index] = !_board[index];
                 Draw();
             }
@@ -134,7 +215,11 @@ public class Game : MonoBehaviour {
     }
 
     private void Start() {
-        Randomize(1000);
+        undoButton.interactable = false;
+        advanceButton.interactable = !_isPlaying;
+        playButton.interactable = !_isPlaying;
+        stopButton.interactable = _isPlaying;
+        restartButton.interactable = false;
         AutoZoom();
         Draw();
         InvokeRepeating(nameof(Run), _rate, _rate);
@@ -151,6 +236,9 @@ public class Game : MonoBehaviour {
             _buffer[i] = _board[i];
         }
 
+        _canUndo = true;
+        undoButton.interactable = true;
+
         for(int i = 0; i < _board.Count; i++) {
             int neighbors = 0;
             int row = RowFromIndex(i);
@@ -165,19 +253,6 @@ public class Game : MonoBehaviour {
             neighbors += GetBufferValue(row + 1, col + 1) ? 1 : 0;
             if(neighbors == 3) _board[i] = true;
             else if(neighbors != 2) _board[i] = false;
-        }
-    }
-
-    private void Randomize(int numPoints = 20) {
-        for(int i = 0; i < numPoints; i++) {
-            int row = Mathf.RoundToInt(rows/2f + (Random.value - Random.value)*rows/2);
-            if(row < 0) row = 0;
-            if(row >= rows) row = rows - 1;
-            int col = Mathf.RoundToInt(columns/2f + (Random.value - Random.value)*columns/2);
-            if(col < 0) col = 0;
-            if(col >= columns) col = columns - 1;
-            int index = row + rows*col;
-            _board[index] = !_board[index];
         }
     }
 

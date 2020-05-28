@@ -19,17 +19,19 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af1ac414-2e14-4d97-8b5b-70d24a01ca66" name="Default Changelist" comment="Fixed rider attempting to add foreign directories to project by deleting and recreating .rider folder">
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sprites.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sprites/PlaybackControls.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Sprites/PlaybackControls.png.meta" afterDir="false" />
+    <list default="true" id="af1ac414-2e14-4d97-8b5b-70d24a01ca66" name="Default Changelist" comment="Added UI controls">
+      <change afterPath="$PROJECT_DIR$/Assets/Images.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Images/Circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Images/Circle.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Images/GameOfLife.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Images/GameOfLife.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites/OtherControls.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Sprites/OtherControls.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Life_Screenshot0001" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectVersion.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +42,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://C:/Program Files/Unity/2019.3.15f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -97,7 +100,8 @@
       <workItem from="1590542014568" duration="74000" />
       <workItem from="1590673396172" duration="730000" />
       <workItem from="1590686789988" duration="165000" />
-      <workItem from="1590687104461" duration="4711000" />
+      <workItem from="1590687104461" duration="4754000" />
+      <workItem from="1590705259348" duration="3468000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed rider attempting to add foreign directories to project by deleting and recreating .rider folder">
       <created>1590541950996</created>
@@ -106,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590541950996</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added UI controls">
+      <created>1590701434186</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1590701434186</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,12 +141,17 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Fixed rider attempting to add foreign directories to project by deleting and recreating .rider folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed rider attempting to add foreign directories to project by deleting and recreating .rider folder" />
+    <MESSAGE value="Added UI controls" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added UI controls" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="873" y="438" key="Vcs.Push.Dialog.v2" timestamp="1590541959973">
+    <state x="873" y="438" key="Vcs.Push.Dialog.v2" timestamp="1590701445754">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
-    <state x="873" y="438" key="Vcs.Push.Dialog.v2/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590541959973" />
+    <state x="873" y="438" key="Vcs.Push.Dialog.v2/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590701445754" />
+    <state x="943" y="318" width="672" height="678" key="search.everywhere.popup" timestamp="1590708414349">
+      <screen x="0" y="0" width="2560" height="1409" />
+    </state>
+    <state x="943" y="318" width="672" height="678" key="search.everywhere.popup/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590708414349" />
   </component>
 </project>
