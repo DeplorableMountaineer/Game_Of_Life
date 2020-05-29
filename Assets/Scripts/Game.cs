@@ -24,6 +24,8 @@ public class Game : MonoBehaviour {
     private bool _isPlaying = false;
     private float _rate = 1;
     private bool _canUndo = false;
+    private Messages _messages;
+    private bool _alreadyBegun = false;
 
     [SerializeField] private int rows = 100;
     [SerializeField] private int columns = 100;
@@ -46,7 +48,7 @@ public class Game : MonoBehaviour {
         int index = PlayerPrefs.GetInt(ScreenshotIndexKey);
         string filename = $"{Application.persistentDataPath}/Life_Screenshot_{index:0000}.png";
         ScreenCapture.CaptureScreenshot(filename);
-        Debug.Log($"Saved screenshot to {filename}");
+        _messages.ShowMessage($"Saved screenshot to {filename}");
         index++;
         PlayerPrefs.SetInt(ScreenshotIndexKey, index);
         PlayerPrefs.Save();
@@ -101,12 +103,14 @@ public class Game : MonoBehaviour {
         CancelInvoke(nameof(Run));
         _rate *= 1.414f;
         InvokeRepeating(nameof(Run), _rate, _rate);
+        _messages.ShowMessage($"Rate: {1/_rate:F1}");
     }
 
     public void SpeedUp() {
         CancelInvoke(nameof(Run));
         _rate /= 1.414f;
         InvokeRepeating(nameof(Run), _rate, _rate);
+        _messages.ShowMessage($"Rate: {1/_rate:F1}");
     }
 
 
@@ -156,6 +160,15 @@ public class Game : MonoBehaviour {
         else _camera.orthographicSize = height;
     }
 
+    private void Begin() {
+        if(_alreadyBegun) return;
+        GameObject go = GameObject.FindGameObjectWithTag("Startup Message");
+        if(go) {
+            Destroy(go);
+        }
+
+        _alreadyBegun = true;
+    }
 
     private void Update() {
         _scroll += Input.GetAxis("Mouse ScrollWheel");
@@ -182,14 +195,18 @@ public class Game : MonoBehaviour {
             int col = Mathf.RoundToInt((pos.x + columns)/2);
             int row = Mathf.RoundToInt((pos.y + rows)/2);
             int index = PosToIndex(row, col);
-            if(index > 0 && index < _board.Length) {
-                _isPlaying = false;
-                advanceButton.interactable = !_isPlaying;
-                playButton.interactable = !_isPlaying;
-                stopButton.interactable = _isPlaying;
-                _board[index] = !_board[index];
-                Draw();
-            }
+            if(index <= 0 || index >= _board.Length) return;
+            _isPlaying = false;
+            advanceButton.interactable = !_isPlaying;
+            playButton.interactable = !_isPlaying;
+            stopButton.interactable = _isPlaying;
+            _board[index] = !_board[index];
+            Draw();
+        }
+
+        if(Input.GetKeyDown("space")) {
+            if(_isPlaying) Pause();
+            else Play();
         }
     }
 
@@ -197,21 +214,26 @@ public class Game : MonoBehaviour {
         if(_allCells) Destroy(_allCells);
         _allCells = Instantiate(allCellsPrefab, transform);
 
+        bool nonempty = false;
         for(int row = 0; row < rows; row++) {
             for(int col = 0; col < columns; col++) {
                 float x = 2*col - columns;
                 float y = 2*row - rows;
                 int index = PosToIndex(row, col);
                 if(!_board[index]) continue;
+                nonempty = true;
                 Instantiate(liveCellPrefab, new Vector3(x, y, 0), Quaternion.identity, _allCells.transform);
             }
         }
+
+        if(nonempty) Begin();
     }
 
     private void Awake() {
         _camera = Camera.main;
         _board = new BitArray(rows*columns);
         _buffer = new BitArray(rows*columns);
+        _messages = FindObjectOfType<Messages>();
     }
 
     private void Start() {
