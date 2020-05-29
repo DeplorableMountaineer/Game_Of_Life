@@ -1,12 +1,12 @@
 ﻿using System.Collections;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
 
 /*
  * TODO: UI
- *         * autopopulate button
- *         * restart, (full rewind/replay?)
- *         * screenshot
+ *         *  (full rewind/replay?)
  *         * save state/load state
  */
 public class Game : MonoBehaviour {
@@ -36,8 +36,22 @@ public class Game : MonoBehaviour {
     [SerializeField] private Button playButton = null;
     [SerializeField] private Button stopButton = null;
     [SerializeField] private Button undoButton = null;
-    [SerializeField] private Button restartButton = null;
 
+
+    public void Save(string filename) {
+        State state = MakeStateToken();
+        string path = $"{Application.persistentDataPath}/${filename}";
+        File.WriteAllText(path, state.ToString());
+        _messages.ShowMessage($"Saved state to {path}");
+    }
+
+    public void Load(string filename) {
+        string path = $"{Application.persistentDataPath}/${filename}";
+        string text = File.ReadAllText(path);
+        State state = State.FromString(text, _board.Count);
+        RestoreFromToken(state);
+        _messages.ShowMessage($"Loaded state from {path}");
+    }
 
     public void Screenshot() {
         Pause();
@@ -241,7 +255,6 @@ public class Game : MonoBehaviour {
         advanceButton.interactable = !_isPlaying;
         playButton.interactable = !_isPlaying;
         stopButton.interactable = _isPlaying;
-        restartButton.interactable = false;
         AutoZoom();
         Draw();
         InvokeRepeating(nameof(Run), _rate, _rate);
@@ -294,5 +307,32 @@ public class Game : MonoBehaviour {
 
     private int ColFromIndex(int index) {
         return Mathf.FloorToInt(index/(float)rows);
+    }
+
+    private State MakeStateToken() {
+        State state = new State {
+            board = new BitArray(_board),
+            buffer = new BitArray(_buffer),
+            orthographicSize = _camera.orthographicSize,
+            cameraPos = _camera.transform.position,
+            rate = _rate
+        };
+        return state;
+    }
+
+    private void RestoreFromToken(State state) {
+        Pause();
+        _canUndo = false;
+        for(int i = 0; i < _board.Count; i++) {
+            _board[i] = state.board[i];
+            _buffer[i] = state.buffer[i];
+            if(_board[i] != _buffer[i]) _canUndo = true;
+        }
+
+        undoButton.interactable = _canUndo;
+        _camera.orthographicSize = state.orthographicSize;
+        _camera.transform.position = state.cameraPos;
+        _rate = state.rate;
+        Draw();
     }
 }

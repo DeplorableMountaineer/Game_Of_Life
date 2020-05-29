@@ -19,14 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af1ac414-2e14-4d97-8b5b-70d24a01ca66" name="Default Changelist" comment="Added other UI functions, including screenshot, autopopulate, quit, clear">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Messages.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Messages.cs.meta" afterDir="false" />
+    <list default="true" id="af1ac414-2e14-4d97-8b5b-70d24a01ca66" name="Default Changelist" comment="Got message bar working; added startup message">
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/State.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/State.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/contentModel.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +37,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://C:/Program Files/Unity/2019.3.15f1/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.ugui/Runtime/EventSystem/EventSystem.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/State.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Messages.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Game.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -46,6 +46,7 @@
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Game.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/State.cs" />
       </list>
     </option>
   </component>
@@ -99,7 +100,8 @@
       <workItem from="1590686789988" duration="165000" />
       <workItem from="1590687104461" duration="4754000" />
       <workItem from="1590705259348" duration="3678000" />
-      <workItem from="1590718344332" duration="1538000" />
+      <workItem from="1590718344332" duration="2541000" />
+      <workItem from="1590767014607" duration="4360000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed rider attempting to add foreign directories to project by deleting and recreating .rider folder">
       <created>1590541950996</created>
@@ -122,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590709912276</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Got message bar working; added startup message">
+      <created>1590720095223</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1590720095223</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,13 +157,14 @@
     <MESSAGE value="Fixed rider attempting to add foreign directories to project by deleting and recreating .rider folder" />
     <MESSAGE value="Added UI controls" />
     <MESSAGE value="Added other UI functions, including screenshot, autopopulate, quit, clear" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added other UI functions, including screenshot, autopopulate, quit, clear" />
+    <MESSAGE value="Got message bar working; added startup message" />
+    <option name="LAST_COMMIT_MESSAGE" value="Got message bar working; added startup message" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="873" y="438" key="Vcs.Push.Dialog.v2" timestamp="1590709918965">
+    <state x="873" y="438" key="Vcs.Push.Dialog.v2" timestamp="1590720105995">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
-    <state x="873" y="438" key="Vcs.Push.Dialog.v2/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590709918965" />
+    <state x="873" y="438" key="Vcs.Push.Dialog.v2/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590720105995" />
     <state x="943" y="318" width="672" height="678" key="search.everywhere.popup" timestamp="1590719622580">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
