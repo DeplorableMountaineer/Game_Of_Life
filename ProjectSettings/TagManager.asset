@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Live Cell
   - Startup Message
+  - Setup Canvas
+  - Save Directory
+  - Screenshot Base
+  - Save Name
   layers:
   - Default
   - TransparentFX

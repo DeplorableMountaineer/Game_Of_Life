@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.UI;
 
 /*
- * TODO: UI
+ * TODO:
  *         *  (full rewind/replay?)
- *         * save state/load state
  */
 public class Game : MonoBehaviour {
     private const string ScreenshotIndexKey = "Screenshot Index";
+    private const string SaveDirectoryKey = "Save Directory";
+    private const string ScreenshotBaseKey = "Screenshot Base";
+    private const string SaveNameKey = "Save Name";
+
     private BitArray _board;
     private BitArray _buffer;
     private Camera _camera;
@@ -38,15 +40,19 @@ public class Game : MonoBehaviour {
     [SerializeField] private Button undoButton = null;
 
 
-    public void Save(string filename) {
+    public void Save() {
         State state = MakeStateToken();
-        string path = $"{Application.persistentDataPath}/${filename}";
+        string directory = PlayerPrefs.GetString(SaveDirectoryKey);
+        string filename = PlayerPrefs.GetString(SaveNameKey);
+        string path = $"{directory}/{filename}";
         File.WriteAllText(path, state.ToString());
         _messages.ShowMessage($"Saved state to {path}");
     }
 
-    public void Load(string filename) {
-        string path = $"{Application.persistentDataPath}/${filename}";
+    public void Load() {
+        string directory = PlayerPrefs.GetString(SaveDirectoryKey);
+        string filename = PlayerPrefs.GetString(SaveNameKey);
+        string path = $"{directory}/{filename}";
         string text = File.ReadAllText(path);
         State state = State.FromString(text, _board.Count);
         RestoreFromToken(state);
@@ -60,7 +66,9 @@ public class Game : MonoBehaviour {
         }
 
         int index = PlayerPrefs.GetInt(ScreenshotIndexKey);
-        string filename = $"{Application.persistentDataPath}/Life_Screenshot_{index:0000}.png";
+        string directory = PlayerPrefs.GetString(SaveDirectoryKey);
+        string basename = PlayerPrefs.GetString(ScreenshotBaseKey);
+        string filename = $"{directory}/{basename}{index:0000}.png";
         ScreenCapture.CaptureScreenshot(filename);
         _messages.ShowMessage($"Saved screenshot to {filename}");
         index++;
@@ -243,6 +251,58 @@ public class Game : MonoBehaviour {
         if(nonempty) Begin();
     }
 
+    public void Setup() {
+        Pause();
+        GameObject go = GameObject.FindGameObjectWithTag("Setup Canvas");
+        if(!go) return;
+        if(!PlayerPrefs.HasKey(SaveDirectoryKey)) {
+            PlayerPrefs.SetString(SaveDirectoryKey, Application.persistentDataPath);
+        }
+
+        if(!PlayerPrefs.HasKey(ScreenshotBaseKey)) {
+            PlayerPrefs.SetString(ScreenshotBaseKey, "Life_Screenshot_");
+        }
+
+        if(!PlayerPrefs.HasKey(SaveNameKey)) {
+            PlayerPrefs.SetString(SaveNameKey, "Life_Saved");
+        }
+
+        Canvas setupCanvas = go.GetComponent<Canvas>();
+
+        go = GameObject.FindGameObjectWithTag("Save Directory");
+        InputField saveDir = go.GetComponent<InputField>();
+        go = GameObject.FindGameObjectWithTag("Screenshot Base");
+        InputField screenBase = go.GetComponent<InputField>();
+        go = GameObject.FindGameObjectWithTag("Save Name");
+        InputField saveName = go.GetComponent<InputField>();
+
+        saveDir.text = PlayerPrefs.GetString(SaveDirectoryKey);
+        screenBase.text = PlayerPrefs.GetString(ScreenshotBaseKey);
+        saveName.text = PlayerPrefs.GetString(SaveNameKey);
+        setupCanvas.enabled = true;
+    }
+
+    public void EndSetup() {
+        GameObject go = GameObject.FindGameObjectWithTag("Setup Canvas");
+        if(!go) return;
+        Canvas setupCanvas = go.GetComponent<Canvas>();
+
+        go = GameObject.FindGameObjectWithTag("Save Directory");
+        InputField saveDir = go.GetComponent<InputField>();
+        go = GameObject.FindGameObjectWithTag("Screenshot Base");
+        InputField screenBase = go.GetComponent<InputField>();
+        go = GameObject.FindGameObjectWithTag("Save Name");
+        InputField saveName = go.GetComponent<InputField>();
+
+        PlayerPrefs.SetString(SaveDirectoryKey, saveDir.text);
+        PlayerPrefs.SetString(ScreenshotBaseKey, screenBase.text);
+        PlayerPrefs.SetString(ScreenshotBaseKey, saveName.text);
+
+        PlayerPrefs.Save();
+
+        setupCanvas.enabled = false;
+    }
+
     private void Awake() {
         _camera = Camera.main;
         _board = new BitArray(rows*columns);
@@ -251,6 +311,14 @@ public class Game : MonoBehaviour {
     }
 
     private void Start() {
+        if(!PlayerPrefs.HasKey(SaveDirectoryKey)) {
+            Setup();
+            return;
+        }
+
+        GameObject go = GameObject.FindGameObjectWithTag("Setup Canvas");
+        if(go) go.GetComponent<Canvas>().enabled = false;
+
         undoButton.interactable = false;
         advanceButton.interactable = !_isPlaying;
         playButton.interactable = !_isPlaying;

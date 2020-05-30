@@ -19,13 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af1ac414-2e14-4d97-8b5b-70d24a01ca66" name="Default Changelist" comment="Got message bar working; added startup message">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/State.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/State.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/contentModel.xml" afterDir="false" />
+    <list default="true" id="af1ac414-2e14-4d97-8b5b-70d24a01ca66" name="Default Changelist" comment="Can now load and save state">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sprites/OtherControls.png" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sprites/OtherControls.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/TagManager.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,8 +44,8 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/Assets/Scripts/Messages.cs" />
-        <option value="$PROJECT_DIR$/Assets/Scripts/Game.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/State.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Game.cs" />
       </list>
     </option>
   </component>
@@ -101,7 +100,8 @@
       <workItem from="1590687104461" duration="4754000" />
       <workItem from="1590705259348" duration="3678000" />
       <workItem from="1590718344332" duration="2541000" />
-      <workItem from="1590767014607" duration="4360000" />
+      <workItem from="1590767014607" duration="4635000" />
+      <workItem from="1590802527910" duration="2052000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed rider attempting to add foreign directories to project by deleting and recreating .rider folder">
       <created>1590541950996</created>
@@ -131,7 +131,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590720095223</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Can now load and save state">
+      <created>1590771463021</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1590771463021</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,13 +165,18 @@
     <MESSAGE value="Added UI controls" />
     <MESSAGE value="Added other UI functions, including screenshot, autopopulate, quit, clear" />
     <MESSAGE value="Got message bar working; added startup message" />
-    <option name="LAST_COMMIT_MESSAGE" value="Got message bar working; added startup message" />
+    <MESSAGE value="Can now load and save state" />
+    <option name="LAST_COMMIT_MESSAGE" value="Can now load and save state" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="873" y="438" key="Vcs.Push.Dialog.v2" timestamp="1590720105995">
+    <state x="873" y="438" key="Vcs.Push.Dialog.v2" timestamp="1590771472572">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
-    <state x="873" y="438" key="Vcs.Push.Dialog.v2/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590720105995" />
+    <state x="873" y="438" key="Vcs.Push.Dialog.v2/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590771472572" />
+    <state x="937" y="333" key="run.anything.popup" timestamp="1590803007417">
+      <screen x="0" y="0" width="2560" height="1409" />
+    </state>
+    <state x="937" y="333" key="run.anything.popup/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590803007417" />
     <state x="943" y="318" width="672" height="678" key="search.everywhere.popup" timestamp="1590719622580">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
