@@ -1,12 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-/*
- * TODO:
- *         *  (full rewind/replay?)
- */
 public class Game : MonoBehaviour {
     private const string ScreenshotIndexKey = "Screenshot Index";
     private const string SaveDirectoryKey = "Save Directory";
@@ -28,6 +26,7 @@ public class Game : MonoBehaviour {
     private bool _canUndo = false;
     private Messages _messages;
     private bool _alreadyBegun = false;
+    private SpriteRenderer _cursorImage;
 
     [SerializeField] private int rows = 100;
     [SerializeField] private int columns = 100;
@@ -38,15 +37,20 @@ public class Game : MonoBehaviour {
     [SerializeField] private Button playButton = null;
     [SerializeField] private Button stopButton = null;
     [SerializeField] private Button undoButton = null;
-
+    [SerializeField] private Transform cursor = null;
 
     public void Save() {
         State state = MakeStateToken();
         string directory = PlayerPrefs.GetString(SaveDirectoryKey);
         string filename = PlayerPrefs.GetString(SaveNameKey);
         string path = $"{directory}/{filename}";
-        File.WriteAllText(path, state.ToString());
-        _messages.ShowMessage($"Saved state to {path}");
+        try {
+            File.WriteAllText(path, state.ToString());
+            _messages.ShowMessage($"Saved state to {path}");
+        }
+        catch(Exception e) {
+            _messages.ShowMessage($"Failed to save state: {e}; ensure path is valid: {path}");
+        }
     }
 
     public void Load() {
@@ -54,9 +58,16 @@ public class Game : MonoBehaviour {
         string filename = PlayerPrefs.GetString(SaveNameKey);
         string path = $"{directory}/{filename}";
         string text = File.ReadAllText(path);
-        State state = State.FromString(text, _board.Count);
-        RestoreFromToken(state);
-        _messages.ShowMessage($"Loaded state from {path}");
+        try {
+            State state = State.FromString(text, _board.Count);
+            RestoreFromToken(state);
+            _messages.ShowMessage($"Loaded state from {path}");
+        }
+        catch(Exception e) {
+            _messages.ShowMessage($"Failed to restore state: {e}; ensure path is valid: {path}");
+        }
+
+        Pause();
     }
 
     public void Screenshot() {
@@ -69,11 +80,16 @@ public class Game : MonoBehaviour {
         string directory = PlayerPrefs.GetString(SaveDirectoryKey);
         string basename = PlayerPrefs.GetString(ScreenshotBaseKey);
         string filename = $"{directory}/{basename}{index:0000}.png";
-        ScreenCapture.CaptureScreenshot(filename);
-        _messages.ShowMessage($"Saved screenshot to {filename}");
-        index++;
-        PlayerPrefs.SetInt(ScreenshotIndexKey, index);
-        PlayerPrefs.Save();
+        try {
+            ScreenCapture.CaptureScreenshot(filename);
+            _messages.ShowMessage($"Saved screenshot to {filename}", .5f);
+            index++;
+            PlayerPrefs.SetInt(ScreenshotIndexKey, index);
+            PlayerPrefs.Save();
+        }
+        catch(Exception e) {
+            _messages.ShowMessage($"Failed to take screenshot: {e}; ensure path is valid: {filename}");
+        }
     }
 
     public void Quit() {
@@ -192,7 +208,28 @@ public class Game : MonoBehaviour {
         _alreadyBegun = true;
     }
 
+    public Vector2Int MousePosition {
+        get {
+            Vector3 pos = _camera.ScreenToWorldPoint(Input.mousePosition);
+            int col = Mathf.RoundToInt((pos.x + columns)/2);
+            int row = Mathf.RoundToInt((pos.y + rows)/2);
+            return new Vector2Int(col, row);
+        }
+    }
+
     private void Update() {
+        float x = 2*MousePosition.x - columns;
+        float y = 2*MousePosition.y - rows;
+        cursor.position = new Vector3(x, y, 0);
+        Color c = _cursorImage.color;
+        if(MousePosition.x >= 0 && MousePosition.x < columns && MousePosition.y >= 0 && MousePosition.y < rows) {
+            c.a = .5f;
+        }
+        else {
+            c.a = 0;
+        }
+
+        _cursorImage.color = c;
         _scroll += Input.GetAxis("Mouse ScrollWheel");
         if(Mathf.Abs(_scroll) > Mathf.Epsilon) {
             _camera.orthographicSize *= Mathf.Pow(zoomFactorPerScrollInput, -_scroll);
@@ -213,10 +250,7 @@ public class Game : MonoBehaviour {
         }
 
         if(Input.GetMouseButtonDown(1)) {
-            pos = _camera.ScreenToWorldPoint(Input.mousePosition);
-            int col = Mathf.RoundToInt((pos.x + columns)/2);
-            int row = Mathf.RoundToInt((pos.y + rows)/2);
-            int index = PosToIndex(row, col);
+            int index = PosToIndex(MousePosition.y, MousePosition.x);
             if(index <= 0 || index >= _board.Length) return;
             _isPlaying = false;
             advanceButton.interactable = !_isPlaying;
@@ -255,17 +289,6 @@ public class Game : MonoBehaviour {
         Pause();
         GameObject go = GameObject.FindGameObjectWithTag("Setup Canvas");
         if(!go) return;
-        if(!PlayerPrefs.HasKey(SaveDirectoryKey)) {
-            PlayerPrefs.SetString(SaveDirectoryKey, Application.persistentDataPath);
-        }
-
-        if(!PlayerPrefs.HasKey(ScreenshotBaseKey)) {
-            PlayerPrefs.SetString(ScreenshotBaseKey, "Life_Screenshot_");
-        }
-
-        if(!PlayerPrefs.HasKey(SaveNameKey)) {
-            PlayerPrefs.SetString(SaveNameKey, "Life_Saved");
-        }
 
         Canvas setupCanvas = go.GetComponent<Canvas>();
 
@@ -308,12 +331,20 @@ public class Game : MonoBehaviour {
         _board = new BitArray(rows*columns);
         _buffer = new BitArray(rows*columns);
         _messages = FindObjectOfType<Messages>();
+        if(cursor) _cursorImage = cursor.GetComponent<SpriteRenderer>();
     }
 
     private void Start() {
         if(!PlayerPrefs.HasKey(SaveDirectoryKey)) {
-            Setup();
-            return;
+            PlayerPrefs.SetString(SaveDirectoryKey, Application.persistentDataPath);
+        }
+
+        if(!PlayerPrefs.HasKey(ScreenshotBaseKey)) {
+            PlayerPrefs.SetString(ScreenshotBaseKey, "Life_Screenshot_");
+        }
+
+        if(!PlayerPrefs.HasKey(SaveNameKey)) {
+            PlayerPrefs.SetString(SaveNameKey, "Life_Saved");
         }
 
         GameObject go = GameObject.FindGameObjectWithTag("Setup Canvas");

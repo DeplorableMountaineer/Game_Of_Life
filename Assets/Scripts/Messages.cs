@@ -25,8 +25,12 @@ public class Messages : MonoBehaviour {
         _text.color = c;
     }
 
-    public void ShowMessage(string message) {
+    public void ShowMessage(string message, float delay = 0) {
         _inputField.text = message;
+        Invoke(nameof(DoShowMessage), delay);
+    }
+
+    private void DoShowMessage() {
         Color c = _image.color;
         c.a = 1;
         _image.color = c;
