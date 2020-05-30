@@ -19,19 +19,13 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="af1ac414-2e14-4d97-8b5b-70d24a01ca66" name="Default Changelist" comment="Added setup menu">
-      <change afterPath="$PROJECT_DIR$/Assets/Images/Cursor.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Images/Cursor.png.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/indexLayout.xml" afterDir="false" />
+    <list default="true" id="af1ac414-2e14-4d97-8b5b-70d24a01ca66" name="Default Changelist" comment="Better cursor; fixed screenshot showing screenshot message on .png; Alpha release build">
+      <change afterPath="$PROJECT_DIR$/Assets/Images/CoverImageItchIo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Images/CoverImageItchIo.png.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Images/Life_Saved0011.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Images/Life_Saved0011.png.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Game Of Life/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Images/Circle.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Images/Circle.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Game.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Game.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Game.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Messages.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Messages.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/EditorBuildSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Life_Screenshot0001" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +104,7 @@
       <workItem from="1590767014607" duration="4635000" />
       <workItem from="1590802527910" duration="2990000" />
       <workItem from="1590849785170" duration="191000" />
-      <workItem from="1590850811109" duration="1906000" />
+      <workItem from="1590850811109" duration="2555000" />
     </task>
     <task id="LOCAL-00001" summary="Fixed rider attempting to add foreign directories to project by deleting and recreating .rider folder">
       <created>1590541950996</created>
@@ -154,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590805162689</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Better cursor; fixed screenshot showing screenshot message on .png; Alpha release build">
+      <created>1590853419135</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1590853419135</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -183,13 +184,14 @@
     <MESSAGE value="Got message bar working; added startup message" />
     <MESSAGE value="Can now load and save state" />
     <MESSAGE value="Added setup menu" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added setup menu" />
+    <MESSAGE value="Better cursor; fixed screenshot showing screenshot message on .png; Alpha release build" />
+    <option name="LAST_COMMIT_MESSAGE" value="Better cursor; fixed screenshot showing screenshot message on .png; Alpha release build" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="873" y="438" key="Vcs.Push.Dialog.v2" timestamp="1590805167741">
+    <state x="873" y="438" key="Vcs.Push.Dialog.v2" timestamp="1590853434850">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
-    <state x="873" y="438" key="Vcs.Push.Dialog.v2/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590805167741" />
+    <state x="873" y="438" key="Vcs.Push.Dialog.v2/0.0.2560.1409/3840.0.1920.1050@0.0.2560.1409" timestamp="1590853434850" />
     <state x="937" y="333" key="run.anything.popup" timestamp="1590803007417">
       <screen x="0" y="0" width="2560" height="1409" />
     </state>
